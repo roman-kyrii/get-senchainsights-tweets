@@ -17,7 +17,7 @@ $accessTokenSecret = '1zB5nJOGnbjuLjYVwMF77NUdQyY75ICrBPCYhXmx9E';
 
 $client = new Client($baseUrl);
 
-$setting = array(
+$settings = array(
     'consumer_key'    => $consumerKey,
     'consumer_secret' => $consumerSecret,
     'token'           => $accessToken,
@@ -32,7 +32,14 @@ $request->getQuery()->set('count', $count);
 
 $response = $request->send();
 
-$tweets = json_decode($resonse->getBody());
+$decodedResponse = json_decode($response->getBody(), true);
 
-?>
+$tweets = array();
 
+foreach ($decodedResponse as $tweet) {
+    $tweets[] = $tweet['text'];
+}
+
+foreach ($tweets as $tweet) {
+    echo $tweet . "\n";
+}
